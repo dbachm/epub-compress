@@ -20,7 +20,7 @@ or
 ```
 
 On errors, the script will exit (and tmp folder is not removed to help debugging),
-also see [Known errors](# Known errors)
+also see [Known errors](#known-errors)
 A copy of the original epub is always stored in the folder:
 ```
 <script_path>/source/
@@ -57,5 +57,5 @@ sh epub-compress.sh -v (for verbose output)
 ```
 ERROR: unzip (returned 9)
 ```
-check epub with calibre (edit Book), fix errors there and save book,
-this 
+Check epub with calibre (edit Book), fix errors there and save book, try again (which fixed it for me).
+
