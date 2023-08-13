@@ -1,8 +1,12 @@
 #! /bin/sh
 # params
+# ebook root folder
 EBOOK_ROOT_FOLDER=/Volumes/Daten\ HD/Google\ Drive/EBook/
+# min compression ratio (%), everything above will be skipped
+MIN_COMPRESSION_RATIO=91
 # start script with -v to enable verbose mode
 verbose="$1"
+
 
 # helper fn for error handling
 check_error()
@@ -111,7 +115,7 @@ do
   if [ "$verbose" = "-v" ] ; then
     echo "(3) zipping done"
   fi
-  if [ $tsize \< $ssize ]; then
+  if [ $tsize \< $ssize ] && [ $ratio \< $MIN_COMPRESSION_RATIO ]; then
     mv "target/$file" "$fpath"
     echo "$ssize_h -> "
     echo "$tsize_h (compressed epub with compression ratio: $ratio %)"

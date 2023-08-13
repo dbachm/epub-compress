@@ -33,6 +33,16 @@ EBOOK_ROOT_FOLDER=/Volumes/My\ Drive/EBooks/
 
 ```
 
+# Config
+You can change the minimal compression ratio (%), everything above will be skipped.
+```
+MIN_COMPRESSION_RATIO=91
+
+```
+100 means the compressed file has the same size as the original,
+50 means the compressed file has half the size as the original.
+
+
 # How to run
 ```
 sh epub-compress.sh
