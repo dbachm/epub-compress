@@ -25,16 +25,22 @@ spath=`pwd`
 
 for fpath in $(find $EBOOK_ROOT_FOLDER -type f -size +3M -name '*.epub');
 do
+  cd "$spath"
   dir=`dirname "$fpath"`
+  file=`basename "$fpath"` 
   if [ -f $dir/.epub_compressed ]; then
+    if [ "$verbose" = "-v" ] ; then
+      echo "skipping $file (epub already handled=compressed before)"
+    fi
     continue
   fi
   if [ -f $dir/.epub_compression_skipped ]; then
+    if [ "$verbose" = "-v" ] ; then
+      echo "skipping $file (epub already handled=skipped before)"
+    fi
     continue
   fi
-  file=`basename "$fpath"` 
-  echo $file
-  cd "$spath"
+  echo "START: reading epub $file"
   mkdir -p source
   cp $fpath $spath/source
   rm -rf "tmp/$fpath"
@@ -79,6 +85,7 @@ do
   if [ "$verbose" = "-v" ] ; then
     par=-X
   fi
+  mkdir -p target
   zip $par "target/$file" tmp/$fpath/mimetype
   check_error "zip #0" $?
   par=-rq
