@@ -100,6 +100,7 @@ do
   else
     echo "mimetype in epub has no read permission, need to sudo password to give read access"
     sudo chmod +r tmp/$fpath/mimetype
+    sudo chmod -R +r tmp/$fpath
   fi
  
   par=-qX
