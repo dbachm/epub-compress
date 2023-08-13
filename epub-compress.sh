@@ -27,7 +27,7 @@ spath=`pwd`
 # look for each ebook in ebook root folder
 # params: -size +3M -> larger than 3MB
 
-for fpath in $(find $EBOOK_ROOT_FOLDER -type f -size +3M -name '*.epub');
+for fpath in $(find $EBOOK_ROOT_FOLDER -type f -size +2M -name '*.epub');
 do
   cd "$spath"
   dir=`dirname "$fpath"`
@@ -115,17 +115,22 @@ do
   if [ "$verbose" = "-v" ] ; then
     echo "(3) zipping done"
   fi
-  if [ $tsize \< $ssize ] && [ $ratio \< $MIN_COMPRESSION_RATIO ]; then
+  if [ $ratio \< $MIN_COMPRESSION_RATIO ]; then
     mv "target/$file" "$fpath"
     echo "$ssize_h -> "
     echo "$tsize_h (compressed epub with compression ratio: $ratio %)"
-    touch "$dir/.epub_compressed"
+    #touch "$dir/.epub_compressed"
   else
     echo "skipping book, because compressed epub is larger than the source epub (bad compression ratio: $ratio %)"
+    if [ "$verbose" = "-v" ] ; then
+      echo "$ssize_h -> "
+      echo "$tsize_h (compressed epub with compression ratio: $ratio %)"
+    fi
     rm "target/$file"
-    touch "$dir/.epub_compression_skipped"
+    #touch "$dir/.epub_compression_skipped"
   fi
   rm -rf "$spath/tmp"
+  break
 done
 unset IFS; set +f
 
