@@ -30,7 +30,7 @@ stat_s=0
 # look for each ebook in ebook root folder
 # params: -size +3M -> larger than 3MB
 
-for fpath in $(find $EBOOK_ROOT_FOLDER -type f -size +2M -name '*.epub');
+for fpath in $(find $EBOOK_ROOT_FOLDER -type f -size +3M -name '*.epub');
 do
   cd "$spath"
   dir=`dirname "$fpath"`
@@ -50,6 +50,9 @@ do
     continue
   fi
   echo "START: reading epub $file"
+  if [ "$verbose" = "-v" ] ; then
+    echo "Source: $fpath"
+  fi
   mkdir -p source
   cp $fpath $spath/source
   check_error "cp" $?
@@ -103,16 +106,17 @@ do
   if [ "$verbose" = "-v" ] ; then
     par=-X
   fi
-  mkdir -p target
-  zip $par "target/$file" tmp/$fpath/mimetype
+  cd tmp/$fpath
+  mkdir -p "$spath/target"
+  zip $par "$spath/target/$file" mimetype
   check_error "zip #0" $?
   par=-rq
   if [ "$verbose" = "-v" ] ; then
     par=-r
   fi
-  zip $par "target/$file" tmp/$fpath -x \*.DS_Store -x \*mimetype
+  zip $par "$spath/target/$file" . -x \*.DS_Store -x \*mimetype
   check_error "zip #1" $?
-
+  cd $spath
   ssize=`stat -f%z "source/$file"`
   ssize_h=`du -h "source/$file"`
   tsize=`stat -f%z "target/$file"`
