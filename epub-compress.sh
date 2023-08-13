@@ -89,7 +89,7 @@ do
       echo "mimetype exists and is readable"
     fi
   else
-    echo "not sure why mimetype has no permission, need to update chmod"
+    echo "mimetype in epub has no read permission, need to sudo password to give read access"
     sudo chmod +r tmp/$fpath/mimetype
   fi
  
