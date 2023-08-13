@@ -33,6 +33,7 @@ do
   file=`basename "$fpath"` 
   echo $file
   cd "$spath"
+  mkdir -p source
   cp $fpath $spath/source
   rm -rf "tmp/$fpath"
   mkdir -p "tmp/$fpath"

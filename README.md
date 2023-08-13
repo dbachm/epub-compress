@@ -19,6 +19,7 @@ or
 
 ```
 
+On errors, the script will exit.
 
 # Preparations before first run 
 Edit path of the epub root folder (e.g. your calibre library), e.g.
