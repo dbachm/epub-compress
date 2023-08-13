@@ -57,5 +57,9 @@ sh epub-compress.sh -v (for verbose output)
 ```
 ERROR: unzip (returned 9)
 ```
+or
+```
+ERROR: unzip (returned 2)
+```
 Check epub with calibre (edit Book), fix errors there and save book, try again (which fixed it for me).
 
