@@ -21,7 +21,7 @@ or
 
 On errors, the script will exit (and tmp folder is not removed to help debugging),
 also see [Known errors](#known-errors).
-A copy of the original epub is always stored in the folder:
+Before replacing, a copy of the original epub is kept in folder:
 ```
 <script_path>/source/
 
