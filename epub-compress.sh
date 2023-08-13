@@ -108,7 +108,7 @@ do
     echo "$tsize_h (calculated compression ratio: $ratio %)"
     touch "$dir/.epub_compressed"
   else
-    echo "skipping book, because manipulated epub is larger than the source epub (bad compression ratio: $ratio %)"
+    echo "skipping book, because compressed epub is larger than the source epub (bad compression ratio: $ratio %)"
     rm "target/$file"
     touch "$dir/.epub_compression_skipped"
   fi
