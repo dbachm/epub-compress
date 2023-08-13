@@ -52,6 +52,7 @@ do
   echo "START: reading epub $file"
   mkdir -p source
   cp $fpath $spath/source
+  check_error "cp" $?
   rm -rf "tmp/$fpath"
   mkdir -p "tmp/$fpath"
   par=-qX
