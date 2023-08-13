@@ -139,6 +139,7 @@ do
       echo "$tsize_h (compressed epub with compression ratio: $ratio %)"
     fi
     rm "target/$file"
+    rm "source/$file"
     touch "$dir/.epub_compression_skipped"
     stat_s=$((stat_s+1))
   fi
