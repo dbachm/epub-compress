@@ -23,6 +23,9 @@ check_error()
 #temporarily disable internal field separator
 IFS=$'\n'; set -f
 spath=`pwd`
+#statistics
+stat_c=0
+stat_s=0
 
 # look for each ebook in ebook root folder
 # params: -size +3M -> larger than 3MB
@@ -33,12 +36,14 @@ do
   dir=`dirname "$fpath"`
   file=`basename "$fpath"` 
   if [ -f $dir/.epub_compressed ]; then
+    stat_c=$((stat_c+1))
     if [ "$verbose" = "-v" ] ; then
       echo "skipping $file (epub already handled=compressed before)"
     fi
     continue
   fi
   if [ -f $dir/.epub_compression_skipped ]; then
+    stat_s=$((stat_s+1))
     if [ "$verbose" = "-v" ] ; then
       echo "skipping $file (epub already handled=skipped before)"
     fi
@@ -115,11 +120,12 @@ do
   if [ "$verbose" = "-v" ] ; then
     echo "(3) zipping done"
   fi
-  if [ $ratio \< $MIN_COMPRESSION_RATIO ]; then
+  if [ $ratio -lt $MIN_COMPRESSION_RATIO ]; then
     mv "target/$file" "$fpath"
     echo "$ssize_h -> "
     echo "$tsize_h (compressed epub with compression ratio: $ratio %)"
-    #touch "$dir/.epub_compressed"
+    touch "$dir/.epub_compressed"
+    stat_c=$((stat_c+1))
   else
     echo "skipping book, because compressed epub is larger than the source epub (bad compression ratio: $ratio %)"
     if [ "$verbose" = "-v" ] ; then
@@ -127,11 +133,12 @@ do
       echo "$tsize_h (compressed epub with compression ratio: $ratio %)"
     fi
     rm "target/$file"
-    #touch "$dir/.epub_compression_skipped"
+    touch "$dir/.epub_compression_skipped"
+    stat_s=$((stas_s+1))
   fi
   rm -rf "$spath/tmp"
-  break
 done
 unset IFS; set +f
 
-
+echo "Summary: no of skipped epubs    $stat_s"
+echo "         no of compressed epubs $stat_c"
