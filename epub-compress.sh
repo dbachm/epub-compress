@@ -35,17 +35,17 @@ do
   cd "$spath"
   dir=`dirname "$fpath"`
   file=`basename "$fpath"` 
-  if [ -f $dir/.epub_compressed ]; then
-    stat_c=$((stat_c+1))
-    if [ "$verbose" = "-v" ] ; then
-      echo "skipping $file (epub already handled=compressed before)"
-    fi
-    continue
-  fi
   if [ -f $dir/.epub_compression_skipped ]; then
     stat_s=$((stat_s+1))
     if [ "$verbose" = "-v" ] ; then
       echo "skipping $file (epub already handled=skipped before)"
+    fi
+    continue
+  fi
+  if [ -f $dir/.epub_compressed ]; then
+    stat_c=$((stat_c+1))
+    if [ "$verbose" = "-v" ] ; then
+      echo "skipping $file (epub already handled=compressed before)"
     fi
     continue
   fi
@@ -140,11 +140,12 @@ do
     fi
     rm "target/$file"
     touch "$dir/.epub_compression_skipped"
-    stat_s=$((stas_s+1))
+    stat_s=$((stat_s+1))
   fi
   rm -rf "$spath/tmp"
 done
-unset IFS; set +f
-
 echo "Summary: no of skipped epubs    $stat_s"
 echo "         no of compressed epubs $stat_c"
+
+unset IFS; set +f
+
