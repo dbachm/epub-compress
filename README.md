@@ -37,3 +37,7 @@ EBOOK_ROOT_FOLDER=/Volumes/My\ Drive/EBooks/
 ```
 sh epub-compress.sh
 ```
+or
+```
+sh epub-compress.sh -v (for verbose output)
+```

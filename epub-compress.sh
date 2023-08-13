@@ -1,6 +1,8 @@
 #! /bin/sh
 # params
 EBOOK_ROOT_FOLDER=/Volumes/Daten\ HD/Google\ Drive/EBook/
+# start script with -v to enable verbose mode
+verbose="$1"
 
 # helper fn for error handling
 check_error()
@@ -37,17 +39,25 @@ do
   cp $fpath $spath/source
   rm -rf "tmp/$fpath"
   mkdir -p "tmp/$fpath"
-  unzip -qX "$fpath" -d "tmp/$fpath"
+  par=-qX
+  if [ "$verbose" = "-v" ] ; then
+    par=-X
+  fi
+  unzip $par "$fpath" -d "tmp/$fpath"
   check_error "unzip" $?
   pngcount=`find "tmp/$fpath" -type f -name '*.png' |wc -l`
+  par=
+  if [ "$verbose" = "-v" ] ; then
+    par=-verbose
+  fi
   if [ $pngcount -ne 0 ]; then
     echo "start converting pngs to jpgs (todo: $pngcount) ..."
-    find "tmp/$fpath" -type f -name '*.png' -execdir sh -c "mogrify -format jpg {}" \;
+    find "tmp/$fpath" -type f -name '*.png' -execdir sh -c "mogrify $par -format jpg {}" \;
     check_error "find #1" $?
     find "tmp/$fpath" -type f -name '*.png' -delete
     check_error "find #2" $?
   fi
-  find "tmp/$fpath" -type f -name '*.jpg' -execdir sh -c "mogrify -quality 50 {}" \;
+  find "tmp/$fpath" -type f -name '*.jpg' -execdir sh -c "mogrify $par -quality 50 {}" \;
   check_error "find #3" $?
   
   echo "(1) img compression done"
@@ -65,9 +75,17 @@ do
     sudo chmod +r tmp/$fpath/mimetype
   fi
  
-  zip -Xq "target/$file" tmp/$fpath/mimetype
+  par=-qX
+  if [ "$verbose" = "-v" ] ; then
+    par=-X
+  fi
+  zip $par "target/$file" tmp/$fpath/mimetype
   check_error "zip #0" $?
-  zip -rq "target/$file" tmp/$fpath -x \*.DS_Store -x \*mimetype
+  par=-rq
+  if [ "$verbose" = "-v" ] ; then
+    par=-r
+  fi
+  zip $par "target/$file" tmp/$fpath -x \*.DS_Store -x \*mimetype
   check_error "zip #1" $?
 
   ssize=`stat -f%z "source/$file"`
