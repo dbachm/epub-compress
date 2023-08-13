@@ -20,6 +20,11 @@ or
 ```
 
 On errors, the script will exit.
+A copy of the original epub is always stored in the folder:
+```
+<script_path>/source
+
+```
 
 # Preparations before first run 
 Edit path of the epub root folder (e.g. your calibre library), e.g.
