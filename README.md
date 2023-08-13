@@ -63,23 +63,3 @@ ERROR: unzip (returned 2)
 ```
 Check epub with calibre (edit Book), fix errors there and save book, try again (which fixed it for me).
 
-Note: if calibre throws errors opening the (source) book, maybe the epub is not correctly zipped,
-rezipping it manually sometimes helps, epub has to be in the following structure (mimetype needs to be first file in archive and uncompressed):
-```
-Archive:     <epub-name>.epub
- extracting: mimetype                
-   creating: META-INF/
-  inflating: META-INF/container.xml  
-   creating: OEBPS/
-   creating: OEBPS/xhtml/
-...
-```
-
-
-sometimes it can be fixed manually be zipping it with fixed folder structures:
-Archive:  test.zip
- extracting: mimetype                
-   creating: META-INF/
-  inflating: META-INF/container.xml  
-   creating: OEBPS/
-   creating: OEBPS/xhtml/
