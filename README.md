@@ -5,8 +5,8 @@ Note: only tested in terminal on macOS (v10.14).
 Use at your own risk!
 
 # How the script works
-Loop trough your epub library and tries to compress each epub.
-If the compressed epub is smaller than the original, overwrite it,
+Loops trough epub library and tries to compress each epub.
+If the compressed epub is smaller than the original, overwrite the source file,
 else skip it.
 When done, write a hidden file next to the epub:
 ```
