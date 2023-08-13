@@ -57,7 +57,9 @@ do
     par=-verbose
   fi
   if [ $pngcount -ne 0 ]; then
-    echo "start converting pngs to jpgs (todo: $pngcount) ..."
+    if [ "$verbose" = "-v" ] ; then
+      echo "start converting pngs to jpgs (todo: $pngcount) ..."
+    fi
     find "tmp/$fpath" -type f -name '*.png' -execdir sh -c "mogrify $par -format jpg {}" \;
     check_error "find #1" $?
     find "tmp/$fpath" -type f -name '*.png' -delete
@@ -66,16 +68,22 @@ do
   find "tmp/$fpath" -type f -name '*.jpg' -execdir sh -c "mogrify $par -quality 50 {}" \;
   check_error "find #3" $?
   
-  echo "(1) img compression done"
+  if [ "$verbose" = "-v" ] ; then
+    echo "(1) img compression done"
+  fi
   if [ $pngcount -ne 0 ] ; then
     find "tmp/$fpath" -type f -name '*.opf' -exec sed -i '' 's/\.png/\.jpg/g;s/image\/png/image\/jpeg/g' {} \;
     check_error "sed #0" $?
     find "tmp/$fpath" -type f -name '*.xhtml' -exec sed -i '' 's/\.png/\.jpg/g;s/image\/png/image\/jpeg/g' {} \;
     check_error "sed #1" $?
-    echo "(2) rename png-links in epub done"
+    if [ "$verbose" = "-v" ] ; then
+      echo "(2) rename png-links in epub done"
+    fi
   fi 
   if [ -r tmp/$fpath/mimetype ]; then
-    echo "mimetype exists and is readable"
+    if [ "$verbose" = "-v" ] ; then
+      echo "mimetype exists and is readable"
+    fi
   else
     echo "not sure why mimetype has no permission, need to update chmod"
     sudo chmod +r tmp/$fpath/mimetype
@@ -100,12 +108,13 @@ do
   tsize=`stat -f%z "target/$file"`
   tsize_h=`du -h "target/$file"`
   ratio=`bc <<<"100*$tsize/$ssize"`
-  echo "(3) zipping done"
+  if [ "$verbose" = "-v" ] ; then
+    echo "(3) zipping done"
+  fi
   if [ $tsize \< $ssize ]; then
     mv "target/$file" "$fpath"
-    echo "updated book"
     echo "$ssize_h -> "
-    echo "$tsize_h (calculated compression ratio: $ratio %)"
+    echo "$tsize_h (compressed epub with compression ratio: $ratio %)"
     touch "$dir/.epub_compressed"
   else
     echo "skipping book, because compressed epub is larger than the source epub (bad compression ratio: $ratio %)"
