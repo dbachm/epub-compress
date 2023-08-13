@@ -19,10 +19,10 @@ or
 
 ```
 
-On errors, the script will exit.
+On errors, the script will exit (and tmp folder is not removed to help debugging).
 A copy of the original epub is always stored in the folder:
 ```
-<script_path>/source
+<script_path>/source/
 
 ```
 
