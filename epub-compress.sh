@@ -73,12 +73,12 @@ do
     if [ "$verbose" = "-v" ] ; then
       echo "start converting pngs to jpgs (todo: $pngcount) ..."
     fi
-    find "tmp/$fpath" -type f -name '*.png' -execdir sh -c "mogrify $par -format jpg {}" \;
+    find "tmp/$fpath" -type f -name '*.png' -execdir sh -c "magick mogrify $par -format jpg {}" \;
     check_error "find #1" $?
     find "tmp/$fpath" -type f -name '*.png' -delete
     check_error "find #2" $?
   fi
-  find "tmp/$fpath" -type f -name '*.jpg' -execdir sh -c "mogrify $par -quality 50 {}" \;
+  find "tmp/$fpath" -type f -name '*.jpg' -execdir sh -c "magick mogrify $par -quality 50 {}" \;
   check_error "find #3" $?
   
   if [ "$verbose" = "-v" ] ; then
